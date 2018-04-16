@@ -193,9 +193,9 @@ void luaC_upvalbarrier_ (lua_State *L, UpVal *uv) {
 
 void luaC_fix (lua_State *L, GCObject *o) {
   global_State *g = G(L);
-  lua_assert(g->allgc == o);  /* object must be 1st in 'allgc' list! */
+  lua_assert(g->allgc == o);  /* object must be 1st in 'allgc' list! */	//为什么呢？只能fix最新的object？
   white2gray(o);  /* they will be gray forever */
-  g->allgc = o->next;  /* remove object from 'allgc' list */
+  g->allgc = o->next;  /* remove object from 'allgc' list */	//从allgc中移除就可以保证不被gc了，因为gc是遍历allgc上的所有object的
   o->next = g->fixedgc;  /* link it to 'fixedgc' list */
   g->fixedgc = o;
 }

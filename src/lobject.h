@@ -308,7 +308,7 @@ typedef struct TString {
   unsigned int hash;
   union {
     size_t lnglen;  /* length for long strings */
-    struct TString *hnext;  /* linked list for hash table */
+    struct TString *hnext;  /* linked list for hash table */	//长字符串是不挂在hash table中的
   } u;
 } TString;
 

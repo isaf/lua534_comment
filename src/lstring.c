@@ -118,7 +118,7 @@ void luaS_init (lua_State *L) {
   int i, j;
   luaS_resize(L, MINSTRTABSIZE);  /* initial size of string table */
   /* pre-create memory-error message */
-  g->memerrmsg = luaS_newliteral(L, MEMERRMSG);
+  g->memerrmsg = luaS_newliteral(L, MEMERRMSG);	//这里为什么不使用luaS_new？因为luaS_new会判断strcache的内容，这里如果用luaS_new的话会非法访问strcache
   luaC_fix(L, obj2gco(g->memerrmsg));  /* it should never be collected */
   for (i = 0; i < STRCACHE_N; i++)  /* fill cache with valid strings */
     for (j = 0; j < STRCACHE_M; j++)
@@ -145,7 +145,7 @@ static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {
 
 
 TString *luaS_createlngstrobj (lua_State *L, size_t l) {
-  TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)->seed);
+  TString *ts = createstrobj(L, l, LUA_TLNGSTR, G(L)->seed);	//为什么长字符串的hash值是seed？长字符串的hash值有什么用？
   ts->u.lnglen = l;
   return ts;
 }
